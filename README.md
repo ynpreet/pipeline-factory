@@ -70,6 +70,9 @@ it, e.g. `*/30 * * * * factory intake`.
 | `evidence/events.jsonl` | append-only evidence log (every generate/verify/review/gate/intake) |
 | `evidence/intake-state.json` | intake state: processed issue ids (idempotency) |
 | `evidence/day5-first-reviewed-pr/` | Day 5 evidence: full loop run `day5-run-001`, approved |
+| `evidence/day10-factory-diagram.md` | Day 10 evidence: factory diagram with verification steps + check against PF-1 |
+| `AGENTS.md` | Day 2: instructions for coding agents (description, setup + verify, 5 rules) |
+| `docs/definition-of-done.md` | Day 9: the factory's Definition of Done |
 | `CHALLENGES.md` | the 23 weekday challenges, mapped to evidence |
 | `docs/design.md` | design notes + factory standards |
 
@@ -82,7 +85,7 @@ pipeline framework (github.com/ynpreet/hipaa-pipeline-framework,
 Apache-2.0). All code in this repo was written during the hackathon
 (Nov 12 – Dec 2, 2026); nothing from the framework repo was copied in.
 
-## Status (Nov 12, 2026 — Day 9)
+## Status (Nov 13, 2026 — Day 10, reconciled)
 
 - v0.1 working end to end: `factory demo` passes 7/7 verification checks
   and the gate approves; **24/24 factory tests pass**; generated pipeline
@@ -103,21 +106,25 @@ Apache-2.0). All code in this repo was written during the hackathon
   (`test_verify_works_with_relative_dirs`). The failed run and the fix
   are both in the evidence log.
 - Registration confirmed Nov 12 (email from info@qodo.ai, 17:41 ET);
-  no daily challenge emails had arrived as of Nov 12, so the challenge
-  log is built from the public roadmap + public posts and will be
-  reconciled against the daily emails as they arrive (first one
-  expected Nov 13).
-- **Not done yet (needs Preet's tap):** create the public GitHub repo,
-  push the code, and submit via the GitHub Discussion thread linked in
-  the daily emails. A repo or social post alone does not count as an
-  entry — the Discussion submission is the entry.
+  the daily challenge emails for Nov 2–11 never arrived (registered
+  late), so Days 1–9 are reconciled from Qodo's public posts and the
+  Day 10 email — see `CHALLENGES.md` for the per-day source and status.
+- **Day 10 (Nov 13) done:** factory diagram with verification steps +
+  check against ticket PF-1 in `evidence/day10-factory-diagram.md`;
+  `AGENTS.md` (Day 2) and `docs/definition-of-done.md` (Day 9) added.
+- **Repo live:** https://github.com/ynpreet/pipeline-factory (public).
+  Code pushed and SHA-verified.
+- **Not done yet (needs Preet's tap):** submit via the GitHub Discussion
+  thread linked in the daily emails. A repo or social post alone does
+  not count as an entry — the Discussion submission is the entry.
+  Final-submission link arrives in the finale emails (Nov 30–Dec 2).
 
 ## Submission checklist
 
 - [x] Working factory, tests green, evidence log
 - [x] Demo run end to end (backlog → approve)
-- [ ] Public GitHub repo created + code pushed (needs Preet's tap)
+- [x] Public GitHub repo created + code pushed (https://github.com/ynpreet/pipeline-factory)
+- [x] Daily challenge evidence reconciled for Days 1–10 (see `CHALLENGES.md`)
 - [ ] Qodo account + free licence confirmed (registration in progress)
-- [ ] Daily challenge evidence reconciled as emails arrive
-- [ ] Final submission via GitHub Discussion thread (needs Preet's tap)
+- [ ] Final submission via GitHub Discussion thread (needs Preet's tap; link arrives Nov 30–Dec 2)
 - [ ] Demo video / screenshots for the submission
