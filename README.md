@@ -35,7 +35,7 @@ backlog ticket ──> spec ──> generate ──> review ──> verify ─�
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -e .[dev]
 .venv/bin/factory demo          # full loop on the sample spec
-.venv/bin/python -m pytest tests/ -q   # factory's own tests (15)
+.venv/bin/python -m pytest tests/ -q   # factory's own tests (24)
 ```
 
 ## Commands
