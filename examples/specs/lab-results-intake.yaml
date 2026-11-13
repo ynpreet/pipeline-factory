@@ -1,0 +1,22 @@
+name: lab-results-intake
+version: 1
+owner: preet-mehta
+description: Governed intake pipeline for synthetic lab results.
+source:
+  type: csv
+  path: data/labs.csv
+  schema:
+    - {name: patient_id, type: string, pii: true, required: true}
+    - {name: test_name, type: string, pii: false, required: true}
+    - {name: result_value, type: float, pii: false, required: true}
+    - {name: result_date, type: date, pii: false}
+transforms:
+  - {kind: deidentify, fields: [patient_id]}
+  - {kind: validate, field: result_value, rule: range, min: 0, max: 10000}
+quality_gates:
+  - {kind: completeness, threshold: 0.95}
+  - {kind: uniqueness, field: patient_id}
+destination:
+  type: csv
+  path: out/governed.csv
+  quarantine_path: out/quarantined.csv

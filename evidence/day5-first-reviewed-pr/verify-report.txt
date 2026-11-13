@@ -1,0 +1,8 @@
+  [PASS] generated tests — 6 passed in 0.04s
+  [PASS] policy: no hardcoded secrets — clean
+  [PASS] policy: every PII field is de-identified — all covered
+  [PASS] policy: eval confined to _derive — confined
+  [PASS] pipeline run on synthetic data — governed=49 quarantined=1
+  [PASS] gate: completeness >= 0.95 — 1.000
+  [PASS] gate: uniqueness(patient_id) >= 1.0 — 1.000
+  => PASSED (7/7 checks)

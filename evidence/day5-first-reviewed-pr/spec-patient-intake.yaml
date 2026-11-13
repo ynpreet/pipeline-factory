@@ -1,0 +1,26 @@
+name: patient-intake
+version: 1
+owner: preet-mehta
+description: Governed intake pipeline for synthetic patient records.
+source:
+  type: csv
+  path: data/patients.csv
+  schema:
+    - {name: patient_id, type: string, pii: true, required: true}
+    - {name: name, type: string, pii: true, required: true}
+    - {name: age, type: integer, pii: false, required: true}
+    - {name: diagnosis_code, type: string, pii: false}
+    - {name: visit_date, type: date, pii: false}
+transforms:
+  - {kind: deidentify, fields: [patient_id, name]}
+  - {kind: validate, field: age, rule: range, min: 0, max: 120}
+  - {kind: derive, field: age_band,
+     expression: '"65+" if age >= 65 else ("45-64" if age >= 45 else "18-44")'}
+quality_gates:
+  - {kind: completeness, threshold: 0.95}
+  - {kind: uniqueness, field: patient_id}
+destination:
+  type: csv
+  path: out/governed.csv
+  quarantine_path: out/quarantined.csv
+

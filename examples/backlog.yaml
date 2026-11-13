@@ -1,0 +1,75 @@
+issues:
+  - id: PF-1
+    title: "Governed intake pipeline for synthetic patient records"
+    labels: [pipeline, healthcare, pii]
+    body: |
+      Build a governed intake pipeline for synthetic patient records.
+      De-identify PII, validate age (0-120), derive an age band, and split
+      governed vs quarantined rows with an audit trail.
+
+      ```yaml
+      name: patient-intake
+      version: 1
+      owner: preet-mehta
+      description: Governed intake pipeline for synthetic patient records.
+      source:
+        type: csv
+        path: data/patients.csv
+        schema:
+          - {name: patient_id, type: string, pii: true, required: true}
+          - {name: name, type: string, pii: true, required: true}
+          - {name: age, type: integer, pii: false, required: true}
+          - {name: diagnosis_code, type: string, pii: false}
+          - {name: visit_date, type: date, pii: false}
+      transforms:
+        - {kind: deidentify, fields: [patient_id, name]}
+        - {kind: validate, field: age, rule: range, min: 0, max: 120}
+        - {kind: derive, field: age_band,
+           expression: '"65+" if age >= 65 else ("45-64" if age >= 45 else "18-44")'}
+      quality_gates:
+        - {kind: completeness, threshold: 0.95}
+        - {kind: uniqueness, field: patient_id}
+      destination:
+        type: csv
+        path: out/governed.csv
+        quarantine_path: out/quarantined.csv
+      ```
+  - id: PF-2
+    title: "Daily freshness check for governed outputs"
+    labels: [pipeline, ops]
+    body: |
+      Add a scheduled check that re-runs verification on the governed
+      output each morning and escalates if any quality gate fails.
+      (Backlog only — not built in v0.1.)
+  - id: PF-3
+    title: "Governed intake pipeline for lab results"
+    labels: [pipeline, healthcare, pii, Ready to Build]
+    body: |
+      Build a governed intake pipeline for synthetic lab results.
+      De-identify PII, validate result values, and split governed vs
+      quarantined rows with an audit trail.
+
+      ```yaml
+      name: lab-results-intake
+      version: 1
+      owner: preet-mehta
+      description: Governed intake pipeline for synthetic lab results.
+      source:
+        type: csv
+        path: data/labs.csv
+        schema:
+          - {name: patient_id, type: string, pii: true, required: true}
+          - {name: test_name, type: string, pii: false, required: true}
+          - {name: result_value, type: float, pii: false, required: true}
+          - {name: result_date, type: date, pii: false}
+      transforms:
+        - {kind: deidentify, fields: [patient_id]}
+        - {kind: validate, field: result_value, rule: range, min: 0, max: 10000}
+      quality_gates:
+        - {kind: completeness, threshold: 0.95}
+        - {kind: uniqueness, field: patient_id}
+      destination:
+        type: csv
+        path: out/governed.csv
+        quarantine_path: out/quarantined.csv
+      ```
